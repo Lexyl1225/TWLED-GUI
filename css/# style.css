@@ -1,0 +1,198 @@
+body {
+    background-color: #222222;
+    margin: 0;
+    text-align: center;
+    color: #06ff27;
+    user-select: none;
+}
+.page-home {
+    height: 100vh;
+    overflow: hidden;
+}
+.page-home #lights {
+    margin: 0 auto;
+    padding: 110px 0 40px;
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+    width: 100%;
+}
+
+.login-page {
+    background: #141414;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.login-card {
+    background: rgba(17, 17, 17, 0.9);
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+    color: #FFFFFF;
+}
+
+.login-logo {
+    display: block;
+    margin: 0 auto 10px auto;
+}
+
+.login-subtitle {
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 20px;
+}
+
+.lock-message {
+    color: #FF5252;
+    min-height: 24px;
+}
+
+.login-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.credits-btn {
+    margin-left: auto;
+    color: #90CAF9;
+}
+
+.credits-btn:hover {
+    color: #FFFFFF;
+}
+
+.icon {
+    float: right;
+    border: 5px solid rgb(90, 149, 167);
+    border-radius: 50px;
+    background-color: #D32F2F; /* off = red */
+}
+
+.icon:hover {
+    filter: brightness(0.95);
+    border-color: #ccf6fc;
+}
+
+.icon.on {
+    background-color: #2196F3; /* on = blue */
+}
+
+.darkicon {
+    float: right;
+    background-color: #E57373; /* off = light red for contrast on light theme */
+    border: 5px solid #030303;
+    border-radius: 50px;
+}
+
+.darkicon:hover {
+    filter: brightness(1.03);
+    border-color: #818181;
+}
+
+.darkicon.on {
+    background-color: #64B5F6; /* on = light blue for contrast */
+}
+
+img {
+    cursor: pointer;
+}
+
+td, th {
+    text-align: center;
+}
+
+tr {
+    border: none;
+}
+
+.logo {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+.del {
+    background-color: #D9321F;
+}
+
+.del:hover {
+    background-color: #A32517;
+    border-color: #D1928B;
+}
+
+.settings-btn {
+    background-color: #ff0000;
+}
+
+.settings-btn:hover {
+    background-color: #1565C0;
+    border-color: #90CAF9;
+}
+
+.logout-link {
+    float: right;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 75px;
+    padding: 0 15px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.logout-link:hover {
+    color: var(--theme-color, #90CAF9);
+}
+
+.light {
+    display: block;
+    text-align: left;
+    width: 90%;
+    margin: auto;
+}
+
+iframe {
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    height: calc(100% - 75px);
+    width: 100%;
+    border: none
+}
+
+input, select, textarea{
+    color: #12b7e0;
+}
+
+::placeholder {
+    color: rgba(255, 255, 255, 0.5)
+  }
+
+.settings {
+    width: 90%;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    transition: width 1s;
+}
+
+@media only screen and (min-width: 534px) { 			
+    .settings {
+        width: 80%;
+    }
+}
+
+@media only screen and (min-width: 950px) { 			
+    .settings {
+        width: 50%;
+    }
+}
