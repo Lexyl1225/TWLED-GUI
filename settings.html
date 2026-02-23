@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED</title>
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <ul>
+        <li><a href="index.html"><img src="images/icon_back.png" alt="back" style="float: left;" height=75></a></li>
+        <li><img src="images/twled_logo.png" alt="logo" id="logo" class="logo" height=75></li>
+        <li><a onclick="openWiki()"><img src="images/icon_wiki.png" alt="icon_wiki" style="float: right;" height=75></a></li>
+        <li><a class="logout-link" onclick="logout()">Logout</a></li>
+    </ul>
+
+    <br><br><br><br><br>
+    <div class="settings">
+        <table>
+            <tr>
+                <td>Autostart</td>
+                <td>
+                    <!-- Autostart Switch -->
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" id="autostart" disabled>
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Autostart hidden</td>
+                <td>
+                    <!-- Autostart hidden Switch -->
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" id="autostartHidden" disabled>
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>Enable tray</td>
+                <td>
+                    <!-- Autostart hidden Switch -->
+                    <div class="switch">
+                        <label>
+                            Off
+                            <input type="checkbox" id="tray">
+                            <span class="lever"></span>
+                            On
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <p class="red-text hidden" style="display: none;" id="restartRequired">You must restart this program to apply these changes</p>
+        <br>
+        <div style=" border: 2px solid rgb(64, 4, 114); border-radius: 0px 0px 25px 25px;">
+            <ul class="collection with-header" id="autoTurnOn" style="text-align: left; margin-top: 0px;">
+                <li class="collection-header" style="text-align: center;">
+                    <h5 class="themed-header">Turn on lights automatically at startup</h5>
+                </li>
+            </ul>
+            <table>
+                <tr>
+                    <td>Turn on lights automatically only at autostart</td>
+                    <td>
+                        <div class="switch">
+                            <label>
+                                Off
+                                <input type="checkbox" id="autoTurnOnOnlyAtAutostart">
+                                <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div style=" border: 2px solid rgba(94, 8, 192, 0.726); border-radius: 25px;">
+            <ul class="collection with-header" id="themeSettings" style="text-align: left; margin-top: 0px;">
+                <li class="collection-header" style="text-align: center;">
+                    <h5 class="themed-header">Theme Settings</h5>
+                </li>
+            </ul>
+            <table style="width: 100%; padding: 15px;">
+                <tr>
+                    <td style="text-align: left;">Theme Color</td>
+                    <td style="text-align: right;">
+                        <input type="color" id="themeColor" style="width: 50px; height: 40px; cursor: pointer; border: none;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Background Color</td>
+                    <td style="text-align: right;">
+                        <input type="color" id="backgroundColor" style="width: 50px; height: 40px; cursor: pointer; border: none;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: left; padding-top: 10px;">
+                        Upload Background Image
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center;">
+                        <input type="file" id="backgroundImage" accept="image/*" style="padding: 5px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <button class="waves-effect waves-light btn" onclick="applyAndSaveTheme()" style="background-color: #2196F3; margin-right: 10px;">Apply Theme</button>
+                        <button class="waves-effect waves-light btn" onclick="resetTheme()" style="background-color: #666;">Reset Theme</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br>
+        <div style=" border: 2px solid rgba(94, 8, 192, 0.726); border-radius: 25px;">
+            <ul class="collection with-header" id="accountSettings" style="text-align: left; margin-top: 0px;">
+                <li class="collection-header" style="text-align: center;">
+                    <h5 class="themed-header">Account Settings</h5>
+                </li>
+            </ul>
+            <table style="width: 100%; padding: 15px;">
+                <tr>
+                    <td style="text-align: left;">New Username</td>
+                    <td style="text-align: right;">
+                        <input type="text" id="newUsername" placeholder="Admin" style="color: #fff;">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">New Password</td>
+                    <td style="text-align: right;">
+                        <input type="password" id="newPassword" placeholder="••••••" style="color: #fff;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <button class="waves-effect waves-light btn" style="background-color: #8e24aa;" onclick="saveNewCredentials()">Save new username and password</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: left;">Idle logout (minutes)</td>
+                    <td style="text-align: right;">
+                        <input type="number" id="idleTimeoutMinutes" min="1" value="1" style="color: #fff;">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-top: 10px; text-align: center;">
+                        <button class="waves-effect waves-light btn" style="background-color: #3949ab;" onclick="saveIdleTimeout()">Save idle timeout</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/settings.js"></script>
+    <script>
+        M.AutoInit();
+    </script>
+
+</body>
+
+</html>

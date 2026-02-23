@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED - Rename</title>
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+</head>
+
+<body>
+
+    <ul>
+        <li><a href="index.html"><img src="images/icon_back.png" alt="back" style="float: left;" height=75></a></li>
+        <li><img src="images/twled_logo.png" alt="logo" id="logo" class="logo" height=75></li>
+        <li><a class="logout-link" onclick="logout()">Logout</a></li>
+    </ul>
+    <br><br><br>
+    <div id="lights">
+
+    </div>
+
+    <!-- Rename Modal -->
+    <div id="renameModal" class="modal" style="color: black;">
+        <div class="modal-content">
+            <h4>Rename Light</h4>
+            <p>Enter a new name for this light:</p>
+            <input type="text" id="renameInput" placeholder="Light name" style="color: black;">
+        </div>
+        <div class="modal-footer">
+            <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+            <a class="waves-effect waves-green btn-flat" onclick="confirmRename()">Save</a>
+        </div>
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        M.AutoInit();
+        if (localStorage.getItem("lights") !== null) {
+            showLightsRename();
+        }
+    </script>
+
+</body>
+
+</html>

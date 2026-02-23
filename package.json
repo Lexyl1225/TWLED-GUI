@@ -1,0 +1,83 @@
+{
+  "name": "twled-gui",
+  "description": "A cross-platform desktop app for TWLED",
+  "author": "twled-gui team",
+  "version": "0.7.3",
+  "homepage": "https://install.wled.me/v2.htm",
+  "bugs": {
+    "url": "https://github.com/Lexyl1225/TWLED-GUI/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lexyl1225/TWLED-GUI.git"
+  },
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --dev",
+    "autostart": "electron . --hidden --dev",
+    "pack": "electron-builder --dir",
+    "build": "electron-builder -mwl",
+    "build windows": "electron-builder --windows --publish=never",
+    "build windows oneclick": "electron-builder --windows -c.nsis.oneClick=true -c.nsis.allowToChangeInstallationDirectory=false --publish=never",
+    "build windows msi": "electron-builder --windows -c.win.target=msi --publish=never",
+    "build windows msi oneclick": "electron-builder --windows -c.win.target=msi -c.msi.oneClick=true --publish=never",
+    "build linux": "electron-builder --linux --publish=never",
+    "build linux deb": "electron-builder --linux --publish=never -c.linux.target=deb",
+    "build linux rpm": "electron-builder --linux --publish=never -c.linux.target=rpm",
+    "build linux snap": "electron-builder --linux --publish=never -c.linux.target=snap",
+    "build linux freebsd": "electron-builder --linux --publish=never -c.linux.target=freebsd",
+    "build mac": "electron-builder --mac --publish=never"
+  },
+  "build": {
+    "appId": "twled-gui.woody.pizza",
+    "productName": "TWLED",
+    "artifactName": "${productName}-${version}-${os}.${ext}",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": true
+    },
+    "msi": {
+      "oneClick": false
+    },
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.lifestyle"
+    },
+    "linux": {
+      "icon": "build/icon.icns",
+      "category": "Network"
+    },
+    "extraFiles": [
+      "build/icon.png",
+      "build/trayIcon.png",
+      "build/trayIcon@2x.png",
+      "build/trayIcon@4x.png"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^39.2.3",
+    "electron-builder": "^26.0.12"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.3",
+    "auto-launch": "^5.0.6",
+    "bonjour": "^3.3.0",
+    "electron-log": "^5.4.3",
+    "multicast-dns": "^7.2.5"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "type": "module",
+  "overrides": {
+    "ip": "2.0.0",
+    "multicast-dns": {
+      "ip": "2.0.0"
+    },
+    "bonjour": {
+      "multicast-dns": {
+        "ip": "2.0.0"
+      }
+    }
+  }
+}
