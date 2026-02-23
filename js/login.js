@@ -1,6 +1,6 @@
 (function () {
     const DEFAULT_USERNAME = "Admin";
-    const DEFAULT_PASSWORD = "@admin123";
+    const DEFAULT_PASSWORD = "your_password_here";
     const MAX_ATTEMPTS = 10;
     const LOCK_DURATION_MS = 10 * 60 * 1000; // 10 minutes
 
@@ -150,3 +150,4 @@
         }
     });
 })();
+
