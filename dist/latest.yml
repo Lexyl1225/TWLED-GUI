@@ -1,0 +1,8 @@
+version: 0.7.3
+files:
+  - url: TWLED-0.7.3-win.exe
+    sha512: OukusMa+yhfvpvhDN/+2IZtJUbAuL+1wiE0hBlh5sZScTk08g6cMo01OxAJzUHaQ8o3pM/y87/Kp7QVVNcykQg==
+    size: 97328052
+path: TWLED-0.7.3-win.exe
+sha512: OukusMa+yhfvpvhDN/+2IZtJUbAuL+1wiE0hBlh5sZScTk08g6cMo01OxAJzUHaQ8o3pM/y87/Kp7QVVNcykQg==
+releaseDate: '2026-02-23T00:15:10.538Z'
