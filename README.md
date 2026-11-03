@@ -1,10 +1,10 @@
-# 🌈 WLED-GUI
+# 🌈 TWLED-GUI
 
 ## 👋 About this project
-This is a cross-platform desktop app for [WLED](https://github.com/Aircoookie/WLED). You can use it on Windows, Linux and MAC.
+This is a cross-platform desktop app for [TWLED/WLED](https://github.com/Aircoookie/WLED). You can use it on Windows, Linux and MAC.
 
 ## ⚙️ Features
-- Looks similar to the WLED app for android/ios ✅
+- Looks similar to the TWLED/WLED app for android/ios ✅
 - Cross-platform ✅
 - Multiple WLEDs support ✅
 - Automatically turn on lights at system startup ✅
