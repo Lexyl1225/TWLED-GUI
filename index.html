@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="page-home">
+
+    <header class="app-bar">
+        <img src="images/twled_logo.png" alt="TWLED" id="logo" class="app-logo">
+        <div class="app-nav" role="navigation" aria-label="Main">
+            <a class="nav-item" href="delete.html" title="Remove lights">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/></svg>
+                <span class="nav-label">Remove</span>
+            </a>
+            <button type="button" class="nav-item" id="refreshBtn" onclick="refreshStatus();" title="Refresh">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/></svg>
+                <span class="nav-label">Refresh</span>
+            </button>
+            <a class="nav-item" href="add.html" title="Add light">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                <span class="nav-label">Add</span>
+            </a>
+            <a class="nav-item" href="rename.html" title="Rename lights">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                <span class="nav-label">Rename</span>
+            </a>
+            <a class="nav-item" href="settings.html" title="Settings">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7"/><path d="M4 10V3"/><path d="M12 21v-9"/><path d="M12 8V3"/><path d="M20 21v-5"/><path d="M20 12V3"/><path d="M1 14h6"/><path d="M9 8h6"/><path d="M17 16h6"/></svg>
+                <span class="nav-label">Settings</span>
+            </a>
+        </div>
+        <button type="button" class="icon-btn logout-link" onclick="logout()" title="Logout">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+            <span class="btn-label">Logout</span>
+        </button>
+    </header>
+
+    <!-- Modal Structure -->
+    <div id="updatePopup" class="modal">
+        <div class="modal-content">
+            <h4>New update available!</h4>
+            <p id="updatePopupText">A new update for TWLED-GUI is available.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="modal-close btn-ghost" onclick="remindLater()">Remind me later</button>
+            <button type="button" class="modal-close btn-secondary">Okay</button>
+            <button type="button" class="modal-close btn-primary" onclick="openRelease()">Download update</button>
+        </div>
+    </div>
+
+    <main class="page">
+        <div class="page-head">
+            <h1>Lights</h1>
+            <p>Tap a light to open its controller.</p>
+        </div>
+        <div id="lights" class="device-grid"></div>
+    </main>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/updater.js"></script>
+    <script>
+        M.AutoInit();
+        if (localStorage.getItem("lights") !== null) {
+            showLights();
+            sync();
+        }
+    </script>
+
+</body>
+
+</html>

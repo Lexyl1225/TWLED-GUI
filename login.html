@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED - Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="login-page">
+    <div class="login-wrapper">
+        <div class="login-card">
+            <img src="images/twled_logo.png" alt="TWLED" class="login-logo">
+            <p class="login-quote">"I can do everything through him who gives me strength."<span>- Philippians 4:13</span></p>
+            <h4>Sign in</h4>
+            <p class="login-subtitle">Enter your credentials to continue.</p>
+            <form id="loginForm">
+                <div class="field">
+                    <label for="username">Username</label>
+                    <input id="username" type="text" class="browser-default tw-input" autocomplete="username">
+                </div>
+                <div class="field">
+                    <label for="password">Password</label>
+                    <input id="password" type="password" class="browser-default tw-input" autocomplete="current-password">
+                </div>
+                <p id="lockMessage" class="lock-message"></p>
+                <div class="login-actions">
+                    <button class="btn-primary" type="submit" id="loginBtn">Login</button>
+                    <a class="btn-ghost credits-btn" href="credits.html">Credits</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

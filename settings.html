@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header class="app-bar">
+        <a class="icon-btn" href="index.html" title="Back" aria-label="Back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </a>
+        <img src="images/twled_logo.png" alt="TWLED" id="logo" class="app-logo">
+        <h1 class="app-title">Settings</h1>
+        <div class="app-actions">
+            <button type="button" class="icon-btn" onclick="openWiki()" title="Help">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>
+                <span class="btn-label">Help</span>
+            </button>
+            <button type="button" class="icon-btn logout-link" onclick="logout()" title="Logout">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                <span class="btn-label">Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="page page-narrow">
+
+        <section class="panel">
+            <h2 class="panel-title">Startup</h2>
+            <div class="setting-row">
+                <span class="setting-label">Autostart</span>
+                <div class="switch">
+                    <label>Off<input type="checkbox" id="autostart" disabled><span class="lever"></span>On</label>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Autostart hidden</span>
+                <div class="switch">
+                    <label>Off<input type="checkbox" id="autostartHidden" disabled><span class="lever"></span>On</label>
+                </div>
+            </div>
+            <div class="setting-row">
+                <span class="setting-label">Enable tray</span>
+                <div class="switch">
+                    <label>Off<input type="checkbox" id="tray"><span class="lever"></span>On</label>
+                </div>
+            </div>
+            <p class="notice" style="display: none;" id="restartRequired">You must restart this program to apply these changes</p>
+        </section>
+
+        <section class="panel">
+            <h2 class="panel-title">Turn on lights automatically at startup</h2>
+            <div class="setting-row">
+                <span class="setting-label">Only at autostart</span>
+                <div class="switch">
+                    <label>Off<input type="checkbox" id="autoTurnOnOnlyAtAutostart"><span class="lever"></span>On</label>
+                </div>
+            </div>
+            <ul class="collection" id="autoTurnOn"></ul>
+        </section>
+
+        <section class="panel">
+            <h2 class="panel-title">Theme</h2>
+            <div class="setting-row">
+                <label class="setting-label" for="themeColor">Accent color</label>
+                <input type="color" id="themeColor" class="color-swatch">
+            </div>
+            <div class="setting-row">
+                <label class="setting-label" for="backgroundColor">Background color</label>
+                <input type="color" id="backgroundColor" class="color-swatch">
+            </div>
+            <div class="field" style="margin-top: 14px;">
+                <label for="backgroundImage">Background image</label>
+                <input type="file" id="backgroundImage" class="file-input" accept="image/*">
+            </div>
+            <div class="btn-row">
+                <button type="button" class="btn-primary" onclick="applyAndSaveTheme()">Apply theme</button>
+                <button type="button" class="btn-secondary" onclick="resetTheme()">Reset</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="panel-title">Account</h2>
+            <div class="field">
+                <label for="newUsername">New username</label>
+                <input type="text" id="newUsername" class="browser-default tw-input" placeholder="Admin" autocomplete="username">
+            </div>
+            <div class="field">
+                <label for="newPassword">New password</label>
+                <input type="password" id="newPassword" class="browser-default tw-input" placeholder="••••••" autocomplete="new-password">
+            </div>
+            <div class="btn-row">
+                <button type="button" class="btn-primary" onclick="saveNewCredentials()">Save username and password</button>
+            </div>
+        </section>
+
+        <section class="panel">
+            <h2 class="panel-title">Security</h2>
+            <div class="field">
+                <label for="idleTimeoutMinutes">Idle logout (minutes)</label>
+                <input type="number" id="idleTimeoutMinutes" class="browser-default tw-input" min="1" value="1" inputmode="numeric">
+            </div>
+            <div class="btn-row">
+                <button type="button" class="btn-secondary" onclick="saveIdleTimeout()">Save idle timeout</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/settings.js"></script>
+    <script>
+        M.AutoInit();
+    </script>
+
+</body>
+
+</html>

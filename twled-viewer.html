@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>TWLED</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="page-viewer">
+
+    <header class="app-bar">
+        <a class="icon-btn" href="index.html" title="Back" aria-label="Back">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+        </a>
+        <img src="images/twled_logo.png" alt="TWLED" id="logo" class="app-logo">
+        <h1 class="app-title" id="viewerTitle"></h1>
+        <div class="app-actions">
+            <button type="button" class="icon-btn logout-link" onclick="logout()" title="Logout">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+                <span class="btn-label">Logout</span>
+            </button>
+        </div>
+    </header>
+
+    <script src="js/script.js"></script>
+    <script src="js/viewer.js"></script>
+
+</body>
+
+</html>
