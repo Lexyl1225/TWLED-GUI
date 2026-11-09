@@ -9,3 +9,4 @@ rm -rf node_modules dist
 npm ci
 npm run "build linux rpm"
 
+Building from a copy matters for two reasons. The node_modules folder on C: was installed for Windows, so it can't be shared with Linux. And builds on /mnt/c are very slow. The finished .rpm will be in ~/twled/dist/.
