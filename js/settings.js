@@ -25,7 +25,7 @@ loadLights();
 function openWiki() {
     log.verbose("Opens Github settings wiki page in default browser");
     const { shell } = require('electron')
-    shell.openExternal('https://tomsworldph-my.sharepoint.com/:f:/g/personal/alexander_fernandez_tomsworld_com_ph/EsFLbkWSnd9HrWgJrJmp318B0NlLb56zShA1BNbNoQXD1A?e=cEGorC')
+    shell.openExternal('https://github.com/Lexyl1225/TWLED-GUI/blob/main/BUILD-WINDOWS.md')
 }
 
 // enabels or disables the autostart of twled-gui

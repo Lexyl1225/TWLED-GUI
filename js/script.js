@@ -140,13 +140,13 @@ if (localStorage.getItem("pcm") === null) {
 // Opens Github page in default browser
 function openRepositorie() {
     const { shell } = require('electron')
-    shell.openExternal('https://tomsworldph-my.sharepoint.com/:f:/g/personal/alexander_fernandez_tomsworld_com_ph/EsFLbkWSnd9HrWgJrJmp318B0NlLb56zShA1BNbNoQXD1A?e=cEGorC')
+    shell.openExternal('https://github.com/Lexyl1225/TWLED-GUI')
 }
 
 // Opens the latest release of TWLED-GUI in default browser
 function openRelease() {
     const { shell } = require('electron')
-    shell.openExternal('https://tomsworldph-my.sharepoint.com/:f:/g/personal/alexander_fernandez_tomsworld_com_ph/EsFLbkWSnd9HrWgJrJmp318B0NlLb56zShA1BNbNoQXD1A?e=cEGorC')
+    shell.openExternal('https://github.com/Lexyl1225/TWLED-GUI/releases')
 }
 
 // Escapes text before it goes into innerHTML (device names come from the network)

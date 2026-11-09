@@ -57,7 +57,7 @@ The first build takes a few minutes; later builds are faster. When it finishes y
 
 | File | What it is |
 |---|---|
-| `TWLED-0.7.4-win.exe` | **The installer — this is the file you distribute** |
+| `TWLED-0.7.5-win.exe` | **The installer — this is the file you distribute** |
 | `win-unpacked\TWLED.exe` | Portable, unpacked app (runs without installing; handy for a quick test) |
 | `*.blockmap`, `latest.yml`, `builder-*.yml` | Build metadata; can be ignored |
 
@@ -99,7 +99,7 @@ In Settings → Startup you can enable **Autostart** (start with Windows), **Aut
    - `js/updater.js` → `const twledGuiVersion = "0.7.4";`
    - `VERSION` file
 2. Optionally add an entry to `CHANGELOG.md`.
-3. Build again: `npm run "build windows"` → `dist\TWLED-0.7.4-win.exe`.
+3. Build again: `npm run "build windows"` → `dist\TWLED-0.7.5-win.exe`.
 4. On each PC, **run the new installer over the existing install. Do not uninstall first.**
 
 > ⚠️ Saved lights, settings, theme and login credentials live in `%APPDATA%\twled-gui`. The installer is configured with `deleteAppDataOnUninstall`, so **uninstalling wipes them**. Installing on top of the old version keeps them.

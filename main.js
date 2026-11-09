@@ -50,6 +50,27 @@ function createWindow() {
   // and load the login.html of the app.
   win.loadFile('login.html')
 
+  // The device UI runs inside an iframe in twled-viewer.html. After a firmware update,
+  // WLED's "Rebooting..." page redirects with top.location.href="/", which would replace
+  // the whole app window (app bar with logo, IP/name and Logout disappears).
+  // Keep the app page and redirect that navigation into the iframe instead.
+  const keepDeviceInFrame = (event, url) => {
+    if (!/^https?:\/\//i.test(url)) return; // app's own file:// pages navigate normally
+    debug("Redirecting top-level navigation into device frame: " + url);
+    event.preventDefault();
+    win.webContents.executeJavaScript(
+      'if (window.twledFrameNavigate) { window.twledFrameNavigate(' + JSON.stringify(url) + '); true } else { false }'
+    ).then(handled => {
+      // not on the viewer page: open the viewer for that device instead of the raw device page
+      if (!handled) {
+        const host = new URL(url).host;
+        win.webContents.executeJavaScript('localStorage.setItem("locIp", ' + JSON.stringify(host) + ');')
+          .then(() => win.loadFile('twled-viewer.html'));
+      }
+    }).catch(err => debug("Frame redirect failed: " + err));
+  };
+  win.webContents.on('will-navigate', keepDeviceInFrame);
+
   // remove menubar
   if (!dev) {
     win.removeMenu()

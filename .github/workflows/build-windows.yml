@@ -1,0 +1,96 @@
+name: Build Windows Installer
+
+# Builds the NSIS installer on a GitHub-hosted Windows runner and, when Azure
+# Trusted Signing is configured, signs the app, uninstaller and installer.
+#
+# Signing is enabled only when the AZURE_SIGNING_ENDPOINT repository variable is
+# set. Until then the workflow produces an unsigned installer.
+#
+# Repository variables (Settings > Secrets and variables > Actions > Variables):
+#   AZURE_SIGNING_ENDPOINT        e.g. https://eus.codesigning.azure.net/
+#   AZURE_SIGNING_ACCOUNT         Trusted Signing account name
+#   AZURE_SIGNING_CERT_PROFILE    Certificate profile name
+#   AZURE_SIGNING_PUBLISHER_NAME  Publisher name exactly as in the certificate subject (CN)
+#
+# Repository secrets (Settings > Secrets and variables > Actions > Secrets):
+#   AZURE_TENANT_ID               Microsoft Entra tenant ID
+#   AZURE_CLIENT_ID               App registration (service principal) client ID
+#   AZURE_CLIENT_SECRET           App registration client secret
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    env:
+      SIGNING_ENABLED: ${{ vars.AZURE_SIGNING_ENDPOINT != '' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Build unsigned installer
+        if: env.SIGNING_ENABLED != 'true'
+        shell: bash
+        run: npx electron-builder --windows nsis --x64 --publish=never
+
+      - name: Build and sign installer (Azure Trusted Signing)
+        if: env.SIGNING_ENABLED == 'true'
+        shell: bash
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          SIGN_ENDPOINT: ${{ vars.AZURE_SIGNING_ENDPOINT }}
+          SIGN_ACCOUNT: ${{ vars.AZURE_SIGNING_ACCOUNT }}
+          SIGN_PROFILE: ${{ vars.AZURE_SIGNING_CERT_PROFILE }}
+          SIGN_PUBLISHER: ${{ vars.AZURE_SIGNING_PUBLISHER_NAME }}
+        run: |
+          for name in AZURE_TENANT_ID AZURE_CLIENT_ID AZURE_CLIENT_SECRET SIGN_ACCOUNT SIGN_PROFILE SIGN_PUBLISHER; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Signing is enabled (AZURE_SIGNING_ENDPOINT is set) but $name is empty."
+              exit 1
+            fi
+          done
+          npx electron-builder --windows nsis --x64 --publish=never \
+            "-c.win.azureSignOptions.endpoint=$SIGN_ENDPOINT" \
+            "-c.win.azureSignOptions.codeSigningAccountName=$SIGN_ACCOUNT" \
+            "-c.win.azureSignOptions.certificateProfileName=$SIGN_PROFILE" \
+            "-c.win.azureSignOptions.publisherName=$SIGN_PUBLISHER"
+
+      - name: Verify signatures
+        if: env.SIGNING_ENABLED == 'true'
+        shell: pwsh
+        run: |
+          $files = @(Get-ChildItem dist\TWLED-*.exe) + @(Get-Item dist\win-unpacked\TWLED.exe)
+          $failed = $false
+          foreach ($f in $files) {
+            $sig = Get-AuthenticodeSignature $f.FullName
+            Write-Host "$($f.Name): $($sig.Status) - $($sig.SignerCertificate.Subject)"
+            if ($sig.Status -ne 'Valid') { $failed = $true }
+          }
+          if ($failed) { throw "One or more files are not validly signed." }
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: TWLED-windows-nsis${{ env.SIGNING_ENABLED == 'true' && '-signed' || '-unsigned' }}
+          path: |
+            dist/TWLED-*.exe
+            dist/TWLED-*.exe.blockmap
+            dist/latest.yml
+          if-no-files-found: error

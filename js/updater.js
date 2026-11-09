@@ -7,7 +7,7 @@ try {
 }
 
 // set version
-const twledGuiVersion = "0.7.4";
+const twledGuiVersion = "0.7.5";
 log.debug("Current TWLED-GUI Version: " + twledGuiVersion);
 
 if (sessionStorage.getItem("updateReminder") === null) {

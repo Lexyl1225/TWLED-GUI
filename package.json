@@ -2,14 +2,14 @@
   "name": "twled-gui",
   "description": "A cross-platform desktop app for TWLED",
   "author": "Woody <support@woody.pizza>",
-  "version": "0.7.4",
-  "homepage": "http://hrdotnet.tmw.trafficmanager.net/",
+  "version": "0.7.5",
+  "homepage": "https://github.com/Lexyl1225/TWLED",
   "bugs": {
-    "url": "https://tomsworldph-my.sharepoint.com/:f:/g/personal/alexander_fernandez_tomsworld_com_ph/EsFLbkWSnd9HrWgJrJmp318B0NlLb56zShA1BNbNoQXD1A?e=cEGorC"
+    "url": "https://github.com/Lexyl1225/TWLED/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/w00000dy/WLED-GUI.git"
+    "url": "git+https://github.com/Lexyl1225/TWLED.git"
   },
   "main": "main.js",
   "scripts": {
