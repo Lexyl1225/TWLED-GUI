@@ -1,8 +1,12 @@
 {
   "name": "twled-gui",
   "description": "A cross-platform desktop app for TWLED",
-  "author": "Woody <support@woody.pizza>",
+  "author": {
+    "name": "Zixi",
+    "email": "solaraideph@gmail.com"
+  },
   "version": "0.7.5",
+  "desktopName": "twled-gui.desktop",
   "homepage": "https://github.com/Lexyl1225/TWLED",
   "bugs": {
     "url": "https://github.com/Lexyl1225/TWLED/issues"
@@ -29,7 +33,7 @@
     "build mac": "electron-builder --mac --publish=never"
   },
   "build": {
-    "appId": "twled-gui.woody.pizza",
+    "appId": "twled-gui.alex.ree",
     "productName": "TWLED",
     "artifactName": "${productName}-${version}-${os}.${ext}",
     "nsis": {
@@ -45,8 +49,24 @@
       "category": "public.app-category.lifestyle"
     },
     "linux": {
-      "icon": "build/icon.icns",
-      "category": "Network"
+      "icon": "build/icon.png",
+      "category": "Network",
+      "syncDesktopName": true,
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm"
+      ],
+      "synopsis": "TWLED/WLED",
+      "description": "TWLED/WLED GUI for Linux users",
+      "maintainer": "Zixi <solaraideph@gmail.com>",
+      "vendor": "TOMSWORLD",
+      "mimeTypes": [
+        "application/x-twled-gui"
+      ],
+      "executableArgs": [
+        "--enable-features=WebContentsFocusOnResize"
+      ]
     },
     "extraFiles": [
       "build/icon.png",
