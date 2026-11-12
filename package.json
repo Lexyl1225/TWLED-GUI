@@ -7,13 +7,13 @@
   },
   "version": "0.7.6",
   "desktopName": "twled-gui.desktop",
-  "homepage": "https://github.com/Lexyl1225/TWLED",
+  "homepage": "https://github.com/Lexyl1225/TWLED-GUI",
   "bugs": {
-    "url": "https://github.com/Lexyl1225/TWLED/issues"
+    "url": "https://github.com/Lexyl1225/TWLED-GUI/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lexyl1225/TWLED.git"
+    "url": "git+https://github.com/Lexyl1225/TWLED-GUI.git"
   },
   "main": "main.js",
   "scripts": {
