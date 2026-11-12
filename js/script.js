@@ -35,6 +35,11 @@ function scheduleIdleLogout() {
 }
 
 function handleIdleTimeout() {
+    // don't log out while an app update is downloading/installing (set by js/updater.js)
+    if (window.twledUpdateInProgress) {
+        scheduleIdleLogout();
+        return;
+    }
     try {
         if (typeof M !== "undefined" && M.toast) {
             M.toast({ html: 'Session timed out due to inactivity', displayLength: 2000 });

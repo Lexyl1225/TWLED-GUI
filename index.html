@@ -41,17 +41,24 @@
         </button>
     </header>
 
-    <!-- Modal Structure -->
-    <div id="updatePopup" class="modal">
+    <!-- Update popup: content and buttons are rendered by js/updater.js for each state
+         (available / downloading / installing / opened / error). Initialized there, not by M.AutoInit. -->
+    <div id="updatePopup" class="modal update-modal no-autoinit" role="dialog" aria-modal="true" aria-labelledby="updatePopupTitle">
         <div class="modal-content">
-            <h4>New update available!</h4>
-            <p id="updatePopupText">A new update for TWLED-GUI is available.</p>
+            <h4 id="updatePopupTitle">New update available!</h4>
+            <p id="updatePopupText" aria-live="polite">A new update for TWLED-GUI is available.</p>
+            <dl id="updateDetails" class="update-details" hidden>
+                <dt>Version</dt><dd id="updateDetailVersion"></dd>
+                <dt>Released</dt><dd id="updateDetailDate"></dd>
+                <dt>File</dt><dd id="updateDetailFile"></dd>
+            </dl>
+            <div id="updateNotes" class="update-notes" hidden></div>
+            <div id="updateProgress" class="update-progress" hidden>
+                <div class="progress"><div id="updateProgressBar" class="determinate" style="width: 0%"></div></div>
+                <div id="updateProgressText" class="update-progress-text" aria-live="polite"></div>
+            </div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="modal-close btn-ghost" onclick="remindLater()">Remind me later</button>
-            <button type="button" class="modal-close btn-secondary">Okay</button>
-            <button type="button" class="modal-close btn-primary" onclick="openRelease()">Download update</button>
-        </div>
+        <div id="updatePopupFooter" class="modal-footer"></div>
     </div>
 
     <main class="page">

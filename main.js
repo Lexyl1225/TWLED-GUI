@@ -1,5 +1,9 @@
-import { app, BrowserWindow, Menu, Tray, session } from 'electron';
-import { join, dirname } from 'path';
+import { app, BrowserWindow, Menu, Tray, session, ipcMain, net, shell } from 'electron';
+import { join, dirname, basename, extname } from 'path';
+import { createWriteStream, existsSync, mkdirSync, rmSync, renameSync, copyFileSync, chmodSync } from 'fs';
+import { spawn } from 'child_process';
+import { Readable, Transform } from 'stream';
+import { pipeline } from 'stream/promises';
 import log from 'electron-log';
 const { initialize, transports, info, debug, verbose } = log;
 
@@ -198,6 +202,150 @@ function getIconDir() {
   return dir;
 }
 
+/* UPDATER
+   The renderer (js/updater.js) finds the release asset and calls "update:start".
+   Download and installation both run here, so the install still happens if the
+   window navigates away (e.g. idle logout) while the download is running. */
+const updateDir = () => join(app.getPath('temp'), 'twled-gui-update');
+let updateAbort = null;
+
+function sendToRenderer(sender, channel, payload) {
+  if (sender && !sender.isDestroyed()) {
+    sender.send(channel, payload);
+  }
+}
+
+async function downloadUpdate(sender, asset) {
+  const name = basename(String((asset && asset.name) || ''));
+  const url = String((asset && asset.url) || '');
+  // only accept release assets served by GitHub
+  if (!name || !/^https:\/\/github\.com\//i.test(url)) {
+    throw new Error('Invalid update file');
+  }
+  mkdirSync(updateDir(), { recursive: true });
+  const filePath = join(updateDir(), name);
+  const partPath = filePath + '.part';
+
+  updateAbort = new AbortController();
+  try {
+    info('Downloading update: ' + url);
+    const response = await net.fetch(url, { signal: updateAbort.signal });
+    if (!response.ok || !response.body) {
+      throw new Error('Download failed (HTTP ' + response.status + ')');
+    }
+    const total = parseInt(response.headers.get('content-length') || '0', 10) || asset.size || 0;
+    let received = 0;
+    let lastSent = 0;
+    const progress = new Transform({
+      transform(chunk, encoding, callback) {
+        received += chunk.length;
+        const now = Date.now();
+        if (now - lastSent > 100) {
+          lastSent = now;
+          sendToRenderer(sender, 'update:progress', { received, total });
+        }
+        callback(null, chunk);
+      }
+    });
+    await pipeline(Readable.fromWeb(response.body), progress, createWriteStream(partPath), { signal: updateAbort.signal });
+    if (total && received !== total) {
+      throw new Error('Download incomplete (' + received + ' of ' + total + ' bytes)');
+    }
+    sendToRenderer(sender, 'update:progress', { received, total: total || received });
+    rmSync(filePath, { force: true });
+    renameSync(partPath, filePath);
+    info('Update downloaded to ' + filePath);
+    return filePath;
+  } catch (err) {
+    rmSync(partPath, { force: true });
+    if (err && err.name === 'AbortError') {
+      throw new Error('Download cancelled');
+    }
+    throw err;
+  } finally {
+    updateAbort = null;
+  }
+}
+
+function spawnDetached(command, args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { detached: true, stdio: 'ignore' });
+    child.once('error', reject);
+    child.once('spawn', () => {
+      child.unref();
+      resolve();
+    });
+  });
+}
+
+async function openWithSystem(filePath) {
+  const error = await shell.openPath(filePath);
+  if (error) {
+    throw new Error(error);
+  }
+}
+
+// returns "installing" (app quits and the installer takes over) or "opened" (user finishes in the installer)
+async function installUpdate(filePath) {
+  const ext = extname(filePath).toLowerCase();
+  info('Installing update: ' + filePath);
+
+  if (process.platform === 'win32' && ext === '.exe') {
+    try {
+      // silent NSIS install, relaunch TWLED-GUI afterwards
+      await spawnDetached(filePath, ['/S', '--updated', '--force-run']);
+    } catch (err) {
+      // e.g. the installer needs elevation: let the shell start it (shows UAC + installer)
+      info('Silent install could not start (' + err.message + '), opening installer');
+      await openWithSystem(filePath);
+    }
+    return 'installing';
+  }
+  if (process.platform === 'win32' && ext === '.msi') {
+    await spawnDetached('msiexec.exe', ['/i', filePath, '/passive', '/norestart']);
+    return 'installing';
+  }
+  if (process.platform === 'linux' && ext === '.appimage' && process.env.APPIMAGE) {
+    // replace the running AppImage and restart from it
+    const target = process.env.APPIMAGE;
+    const tmp = target + '.new';
+    copyFileSync(filePath, tmp);
+    chmodSync(tmp, 0o755);
+    renameSync(tmp, target);
+    app.relaunch({ execPath: target, args: process.argv.slice(1) });
+    return 'installing';
+  }
+  // .dmg / .pkg / .deb / .rpm: hand over to the system installer
+  await openWithSystem(filePath);
+  return 'opened';
+}
+
+function registerUpdateHandlers() {
+  ipcMain.handle('update:get-version', () => app.getVersion());
+
+  ipcMain.handle('update:start', async (event, asset) => {
+    if (updateAbort) {
+      throw new Error('An update download is already running');
+    }
+    const sender = event.sender;
+    const filePath = await downloadUpdate(sender, asset);
+    // download finished: install right away, no further user action
+    sendToRenderer(sender, 'update:status', { state: 'installing' });
+    const result = await installUpdate(filePath);
+    if (result === 'installing') {
+      // give the renderer a moment to show the "installing" state, then quit for the installer
+      setTimeout(() => app.quit(), 1500);
+    }
+    return result;
+  });
+
+  ipcMain.handle('update:cancel', () => {
+    if (updateAbort) {
+      updateAbort.abort();
+    }
+  });
+}
+
 // check if second instance was started
 if (!gotTheLock) {
   info('TWLED-GUI quitted');
@@ -216,6 +364,7 @@ if (!gotTheLock) {
   // TWLED firmware ETags only change with VERSION, so a reflash with the same VERSION
   // would keep serving stale UI files from Electron's disk cache
   app.whenReady().then(() => session.defaultSession.clearCache())
+  app.whenReady().then(registerUpdateHandlers)
   app.whenReady().then(createWindow)
   app.whenReady().then(loadSettings)
 

@@ -753,8 +753,68 @@ select.tw-input {
     background-color: var(--surface-3);
 }
 
-.progress .indeterminate {
+.progress .indeterminate,
+.progress .determinate {
     background-color: var(--theme-color);
+}
+
+.progress .determinate {
+    transition: width 0.2s linear;
+}
+
+/* Update popup */
+.update-modal [hidden] {
+    display: none !important;
+}
+
+.update-modal .update-details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 16px;
+    margin: 0 0 16px;
+    font-size: 0.9rem;
+}
+
+.update-modal .update-details dt {
+    color: var(--text-muted);
+}
+
+.update-modal .update-details dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.update-modal .update-notes {
+    max-height: 160px;
+    overflow-y: auto;
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface-3);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.update-modal .update-progress {
+    margin: 0 0 16px;
+}
+
+.update-modal .update-progress .progress {
+    margin-top: 0;
+}
+
+.update-modal .update-progress-text {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.update-modal.is-error .modal-content h4 {
+    color: var(--danger);
 }
 
 /* Modal */

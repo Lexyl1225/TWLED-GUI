@@ -1,14 +1,14 @@
-# TWLED-GUI AI Coding Instructions
+# TWLED/WLED-GUI AI Coding Instructions
 
 ## Repo Summary
 
-TWLED-GUI is a cross-platform Electron desktop app for managing WLED smart light devices. The app runs on Windows, macOS, and Linux, with a vanilla JavaScript renderer and CommonJS module system.
+TWLED/WLED-GUI is a cross-platform Electron desktop app for managing TWLED/WLED smart light devices. The app runs on Windows, macOS, and Linux, with a vanilla JavaScript renderer and CommonJS module system.
 
 **Key characteristics**: 
 - Entry: `main.js` (main process)
 - UI: static HTML + `js/` renderer scripts (no frameworks)
 - State: `localStorage` for persistence
-- Device comms: HTTP requests to WLED devices
+- Device comms: HTTP requests to TWLED/WLED devices
 
 ## Architecture Overview
 
@@ -21,7 +21,7 @@ TWLED-GUI is a cross-platform Electron desktop app for managing WLED smart light
 
 ### Renderer Context (HTML + JS)
 - **`index.html`**: device list homepage
-- **`twled-viewer.html`**: embeds WLED web UI (`<iframe src="http://<ip>">`)
+- **`twled-viewer.html`**: embeds TWLED/WLED web UI (`<iframe src="http://<ip>">`)
 - **`add.html` + `js/add.js`**: device discovery (Bonjour/brute-force)
 - **`settings.html` + `js/settings.js`**: app preferences
 - **`autostart.html` + `js/autostart.js`**: hidden worker window (periodic sync)
@@ -182,7 +182,7 @@ File: `js/script.js` + `css/style.css`
 
 5. **XHR error handling**: Failed requests set `lights[index].online = false` immediately. No retry logic—next `getStatus()` cycle will retry.
 
-6. **WLED endpoint contracts**: 
+6. **TWLED endpoint contracts**: 
    - `GET /json` → returns `{state: {on: bool}, info: {ver: string}}`
    - `GET /win&T=2` → toggles power (hardcoded endpoint, no status return)
 
@@ -196,7 +196,7 @@ File: `js/script.js` + `css/style.css`
 3. Verify polling works: watch console XHR requests every 10s
 
 ### Device Mocking
-Start a Node HTTP server serving WLED JSON:
+Start a Node HTTP server serving TWLED/WLED JSON:
 ```javascript
 const http = require('http');
 http.createServer((req, res) => {
