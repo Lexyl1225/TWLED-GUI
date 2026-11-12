@@ -10,7 +10,7 @@ This is a cross-platform desktop app for [TWLED/WLED](https://github.com/Aircooo
 - Automatically turn on lights at system startup ✅
 
 ## 🖼️ Images
-<a href="https://ibb.co/R2QF02d"><img src="https://i.ibb.co/6YDMPYL/macbook-pro-space-gray-on-the-wooden-table.jpg" alt="macbook pro space gray on the wooden table with wled"  width="50%"></a><a href="https://ibb.co/g7Ypq7R"><img src="https://i.ibb.co/TTySjTg/bright-office-enviroment-with-macbook-air.jpg" alt="bright office enviroment with macbook air and wled"  width="50%"></a>
+<a href="https://github.com/Lexyl1225/TWLED-GUI/blob/main/images/twled_02_gui_windows.png"><img src="images/twled_02_gui_windows.png" alt="windows 11 dark themed TWLED"  width="50%"></a><a href="https://github.com/Lexyl1225/TWLED-GUI/blob/main/images/TWLED.png"><img src="images/TWLED.png" alt="TWLED Windows Gui image"  width="50%"></a>
  
 ## ⬇️ Download
 You can download the latest version [here](https://github.com/Lexyl1225/TWLED-GUI/releases/latest).
@@ -24,3 +24,4 @@ You can download the latest version [here](https://github.com/Lexyl1225/TWLED-GU
 - [electron-builder](https://github.com/electron-userland/electron-builder)
 - [electron-log](https://www.npmjs.com/package/electron-log)
 - [NodeJS](https://nodejs.org/)
+- [Original Author](https://github.com/w00000dy/WLED-GUI)
