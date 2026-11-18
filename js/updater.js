@@ -13,8 +13,19 @@ try {
     log.warn("Updater: ipcRenderer not available, automatic install disabled");
 }
 
-// fallback only; the real version comes from the main process (package.json)
-const twledGuiVersionFallback = "0.7.5";
+// The current version comes from the VERSION file in the project root.
+// If it can't be read, the main process version (package.json) is used instead.
+function readVersionFile() {
+    try {
+        return require('fs').readFileSync(require('path').join(__dirname, "VERSION"), "utf8").trim();
+    } catch (e) {
+        log.warn("Updater: could not read VERSION file: " + e.message);
+        return "";
+    }
+}
+
+const twledGuiVersionFile = readVersionFile();
+const twledGuiVersionFallback = twledGuiVersionFile || "0.0.0";
 const updateRepo = "Lexyl1225/TWLED-GUI";
 const remindLaterMs = 259200000; // 3 days
 
@@ -346,7 +357,9 @@ function initUpdater() {
         updateModal = M.Modal.init(popup, { dismissible: false });
     }
 
-    var versionReady = ipcRenderer
+    var versionReady = twledGuiVersionFile
+        ? Promise.resolve(twledGuiVersionFile)
+        : ipcRenderer
         ? ipcRenderer.invoke("update:get-version").catch(function () { return twledGuiVersionFallback; })
         : Promise.resolve(twledGuiVersionFallback);
 

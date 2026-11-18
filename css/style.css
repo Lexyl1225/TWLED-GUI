@@ -1076,3 +1076,39 @@ iframe {
         transition: none !important;
     }
 }
+
+/* ---------- App version (js/version.js) ---------- */
+
+.app-version {
+    margin: 16px 0 0;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    text-align: center;
+    letter-spacing: 0.02em;
+}
+
+.app-version-inline {
+    margin: 0 12px 0 0;
+    white-space: nowrap;
+}
+
+.app-version-badge {
+    position: fixed;
+    right: 12px;
+    bottom: calc(8px + env(safe-area-inset-bottom));
+    z-index: 900;
+    padding: 2px 8px;
+    color: var(--text-muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    pointer-events: none;
+    opacity: 0.85;
+}
+
+@media (max-width: 640px) {
+    .page-home .app-version-badge {
+        bottom: calc(76px + env(safe-area-inset-bottom));
+    }
+}
